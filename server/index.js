@@ -9,7 +9,9 @@ const CountModel  = require("./models/Count");
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb+srv://anushka:4OcHQ3QwKKhc33aL@cluster0.70vfl.mongodb.net/food?retryWrites=true&w=majority", {
+//database-test2
+//collections-datas,counts
+mongoose.connect("mongodb+srv://anushka:4OcHQ3QwKKhc33aL@cluster0.70vfl.mongodb.net/test2?retryWrites=true&w=majority", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     writeConcern: {
@@ -18,6 +20,7 @@ mongoose.connect("mongodb+srv://anushka:4OcHQ3QwKKhc33aL@cluster0.70vfl.mongodb.
 });
 
 app.post( '/insert', async(req,res) => {
+  //247.036 ms
   const dataName=req.body.dataName
   const num=req.body.num
   const data = new DataModel({
@@ -42,9 +45,9 @@ app.get( '/read', async(req,res) => {
 });
 
 app.put( '/update', async(req,res) => {
+  //219.557 ms
   const newdataName=req.body.newdataName;
   const id=req.body.id;
-
   try {
     await DataModel.findById(id, (err, updatedData) => {
       updatedData.dataName = newdataName;
@@ -71,6 +74,7 @@ app.post( '/count', async(req,res) => {
 });
 
 app.get( '/showcount', async(req,res) => {
+  //0.735 ms
   CountModel.find({}, (err,result) => {
     if (err) {
       res.send(err)
