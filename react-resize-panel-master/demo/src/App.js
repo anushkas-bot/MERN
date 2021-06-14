@@ -14,7 +14,8 @@ export default function App() {
   const [dataList, setdataList] = useState([]);
   const [countList, setcountList] = useState([]);
   const [newdataName, setnewdataName] = useState("");
-  const [count, setCount] = useState(1);
+  const [addcount, setaddCount] = useState(1);
+  const [updatecount, setupdateCount] = useState(1);
   useEffect(() => {
     // Update the document title using the browser API
     Axios.get("http://localhost:3001/read").then((response) => {
@@ -27,15 +28,14 @@ export default function App() {
 })
   }, []);
   const addToList = () => {
+    setaddCount(addcount+1)
     Axios.post("http://localhost:3001/insert", {
       dataName: dataName,
       num: num
     })
-    setCount(count+1)
     Axios.post("http://localhost:3001/count", {
-      count: count
+      count: addcount
     })
-    console.log(count + 'add')
     setdataName('');
     setNum('');
   }
@@ -43,17 +43,15 @@ export default function App() {
     setdataName('');
   }
   const updateData = (id) => {
+    setupdateCount(updatecount+1)
     Axios.put("http://localhost:3001/update", {
       id: id,
       newdataName: newdataName,
     })
-    setCount(count+1)
     Axios.post("http://localhost:3001/count", {
-      count: count
+      count: updatecount
     })
-    console.log(count + 'update')
   }
-  console.log(count + 'count')
   return (
     <div className={cx('container')}>
       <ResizePanel direction="s">
@@ -86,7 +84,6 @@ export default function App() {
         {countList.map((val,key) => {
           return (
             <div>
-            <h1 style={{marginTop: 0, marginLeft: 20 }}>{count}</h1>
             </div>
           )
         })}
